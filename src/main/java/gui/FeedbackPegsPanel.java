@@ -90,12 +90,12 @@ public class FeedbackPegsPanel extends JPanel {
         }
     }
 
-    private void updateGameRows(int gameRows) {
+    void updateGameRows(int gameRows) {
         this.gameRows = gameRows;
         makeNewFeedbackBoard();
     }
 
-    private void updatePegSize(int gamePegSize) {
+    void updatePegSize(int gamePegSize) {
         this.gamePegSize = gamePegSize;
         makeNewFeedbackBoard();
     }
