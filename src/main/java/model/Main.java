@@ -1,11 +1,11 @@
 package model;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
 public class Main {
-    public static void main(String ... args) {
+
+    public static void main(String... args) {
         new GameController("GUI");
     }
-
 }
