@@ -7,15 +7,12 @@ import java.awt.*;
 import java.util.List;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
 public class MainGUIPanel extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    public JPanel cards;
-    private FileMenu fileMenu;
-    private SubmitGuessPanel guessPanel;
-    private SubmitFeedbackPanel feedbackPanel;
+    private JPanel cards;
     private BoardPanel boardPanel;
     private FeedbackPegsPanel feedbackPegsPanel;
     private GameController gameController;
@@ -29,9 +26,9 @@ public class MainGUIPanel extends JFrame {
         gameStatus = new JLabel("Game Status: ");
 
         this.gameController = gameController;
-        fileMenu = new FileMenu();
-        feedbackPanel = new SubmitFeedbackPanel();
-        guessPanel = new SubmitGuessPanel();
+        FileMenu fileMenu = new FileMenu();
+        SubmitFeedbackPanel feedbackPanel = new SubmitFeedbackPanel();
+        SubmitGuessPanel guessPanel = new SubmitGuessPanel();
         //this.gameRows = gameRows;
         //this.gamePegSize = gamePegSize;
         boardPanel = new BoardPanel(gameRows, gamePegSize);
@@ -71,41 +68,24 @@ public class MainGUIPanel extends JFrame {
         setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
     }
 
-    /**
-     * gets the solution panel
-     */
-    public SolutionPanel getSolutionPanel() {
+    SolutionPanel getSolutionPanel() {
         return solutionPanel;
     }
 
-    /**
-     * shows the feedback panel
-     */
     public void showFeedbackPanel() {
         ((CardLayout) cards.getLayout()).show(cards, "feedback");
     }
 
-    /**
-     * shows the guess panel
-     */
     public void showGuessPanel() {
         ((CardLayout) cards.getLayout()).show(cards, "guess");
     }
 
-    /**
-     * initializes a new game in the controller
-     */
-    public void newGame() {
+    void newGame() {
         gameController.startNewGame();
     }
 
-    /**
-     * redraws guesses, feedback, and solutions
-     */
     public void redraw() {
         boardPanel.redrawGuesses(gameController.makeGuessImageNameList());
-        //System.out.println("GUI redrawing with " + gameController.makeGuessImageNameList().toString());
-        //System.out.println("GUI redrawing with " + gameController.makeFeedbackImageNameList().toString());
         feedbackPegsPanel.redrawFeedback(gameController.makeFeedbackImageNameList());
         solutionPanel.redrawSolution(gameController.makeSolutionImageNameList());
         validate();
@@ -118,11 +98,11 @@ public class MainGUIPanel extends JFrame {
         validate();
     }
 
-    public void addGuess(List<String> pegNames) {
+    void addGuess(List<String> pegNames) {
         gameController.addGuess(pegNames);
     }
 
-    public void addFeedback(List<String> pegNames) {
+    void addFeedback(List<String> pegNames) {
         gameController.addFeedback(pegNames);
     }
 
@@ -134,11 +114,11 @@ public class MainGUIPanel extends JFrame {
         solutionPanel.newGameComputer();
     }
 
-    public void setOptions(List<String> settings) {
+    void setOptions(List<String> settings) {
         gameController.setConfiguration(settings);
     }
 
-    public void setSolutionCode(List<String> str) {
+    void setSolutionCode(List<String> str) {
         gameController.addAnswer(str);
     }
 
@@ -148,7 +128,7 @@ public class MainGUIPanel extends JFrame {
         }
     }
 
-    public void undo() {
+    void undo() {
         gameController.undo();
     }
 
@@ -161,5 +141,4 @@ public class MainGUIPanel extends JFrame {
         boardPanel.updatePegSize(pegSize);
         feedbackPegsPanel.updatePegSize(pegSize);
     }
-
 }

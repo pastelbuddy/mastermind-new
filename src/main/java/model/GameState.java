@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
 public class GameState {
 

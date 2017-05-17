@@ -16,6 +16,7 @@ public class Computer implements Player {
     private GameController controller;
     private Difficulty difficultyMode;
     private String name;
+    private Integer waitTime;
 
     public Computer(GameController controller) {
         this.controller = controller;
@@ -26,6 +27,11 @@ public class Computer implements Player {
     public String getName() {
         return this.name;
     }
+
+    void setWaitTime(int seconds) {
+        this.waitTime = seconds;
+    }
+
 
     /**
      * This method packages commands and sends them off

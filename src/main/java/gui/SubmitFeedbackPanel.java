@@ -25,7 +25,7 @@ public class SubmitFeedbackPanel extends JPanel {
     @SuppressWarnings("rawtypes")
     private JComboBox pegFour;
 
-    public JPanel makeFeedPanel(MainGUIPanel guiPanel) {
+    JPanel makeFeedPanel(MainGUIPanel guiPanel) {
         gui = guiPanel;
 
         JPanel feedBackPanel = new JPanel();
@@ -35,7 +35,6 @@ public class SubmitFeedbackPanel extends JPanel {
         feedBackPanel.add(submitPanel(), BorderLayout.EAST);
         feedBackPanel.add(guessSelectPanel(), BorderLayout.CENTER);
         feedBackPanel.add(undoPanel(), BorderLayout.WEST);
-
 
         return feedBackPanel;
     }
@@ -94,7 +93,6 @@ public class SubmitFeedbackPanel extends JPanel {
 
     @SuppressWarnings({"rawtypes", "unchecked"})
     public JPanel guessSelectPanel() {
-
         ImageIcon none = new ImageIcon(getClass().getResource("NONE.png"));
         ImageIcon black = new ImageIcon(getClass().getResource("FEEDBACK_BLACK.png"));
         ImageIcon white = new ImageIcon(getClass().getResource("FEEDBACK_WHITE.png"));

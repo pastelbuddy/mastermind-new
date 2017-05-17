@@ -25,11 +25,6 @@ public class SubmitGuessPanel extends JPanel {
     private JComboBox pegFour;
     private String[] colors = {"RED", "BLUE", "GREEN", "YELLOW", "WHITE", "BLACK", "PURPLE"};
 
-    /**
-     * Panel that will be the panel will be a guess.
-     *
-     * @return
-     */
     public JPanel makeGuessPanel(MainGUIPanel guiPanel) {
         gui = guiPanel;
 
@@ -46,12 +41,6 @@ public class SubmitGuessPanel extends JPanel {
         return guessPanel;
     }
 
-    /**
-     * Undo button located here
-     *
-     * @return
-     */
-
     public JPanel undoPanel() {
         JPanel undoPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
@@ -67,12 +56,6 @@ public class SubmitGuessPanel extends JPanel {
 
         return undoPanel;
     }
-
-    /**
-     * Submit button located here
-     *
-     * @return
-     */
 
     public JPanel submitPanel() {
         JPanel submitPanel = new JPanel();
@@ -91,15 +74,8 @@ public class SubmitGuessPanel extends JPanel {
         return submitPanel;
     }
 
-    /**
-     * Guesses are created here.
-     *
-     * @return
-     */
-
     @SuppressWarnings({"rawtypes", "unchecked"})
     public JPanel guessSelectPanel() {
-
         ImageIcon red = new ImageIcon(getClass().getResource("RED.png"));
         ImageIcon blue = new ImageIcon(getClass().getResource("BLUE.png"));
         ImageIcon green = new ImageIcon(getClass().getResource("GREEN.png"));
@@ -144,6 +120,7 @@ public class SubmitGuessPanel extends JPanel {
     }
 
     class SubmitListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             gui.addGuess(getSelectedPegs());
             reset();
@@ -151,6 +128,7 @@ public class SubmitGuessPanel extends JPanel {
     }
 
     class UndoListener implements ActionListener {
+
         public void actionPerformed(ActionEvent arg0) {
             gui.undo();
             reset();

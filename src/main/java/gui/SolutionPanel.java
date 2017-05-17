@@ -55,13 +55,13 @@ public class SolutionPanel extends JFrame {
         setLocation(x, y);
 
     }
-    
-    public void newGame() {
+
+    void newGame() {
         setVisible(true);
         setUserInput(true);
     }
 
-    public void newGameComputer() {
+    void newGameComputer() {
         setUserInput(false);
     }
 
@@ -137,7 +137,7 @@ public class SolutionPanel extends JFrame {
         return selected;
     }
 
-    public void redrawSolution(List<String> imageFiles) {
+    void redrawSolution(List<String> imageFiles) {
         for (int i = 0; i < imageFiles.size(); i++) {
             JButton button = (JButton) viewSolutionPanel.getComponent(i);
             try {
@@ -163,6 +163,7 @@ public class SolutionPanel extends JFrame {
     }
 
     class EncodeListener implements ActionListener {
+
         public void actionPerformed(ActionEvent e) {
             mainPanel.setSolutionCode(getSelectedPegs());
             setUserInput(false);

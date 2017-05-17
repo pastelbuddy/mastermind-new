@@ -4,12 +4,12 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ad on 2017-05-14.
  */
-public class BoardPanel extends JPanel {
+class BoardPanel extends JPanel {
 
     private static final long serialVeriosnUID = 1L;
     private static final String NONE = "NONE.png";
@@ -17,7 +17,7 @@ public class BoardPanel extends JPanel {
     private int gameRows;
     private int gamePegSize;
 
-    public BoardPanel(Integer gameRows, Integer gamePegSize) {
+    BoardPanel(Integer gameRows, Integer gamePegSize) {
         this.gameRows = gameRows;
         this.gamePegSize = gamePegSize;
 
@@ -52,7 +52,7 @@ public class BoardPanel extends JPanel {
         }
     }
 
-    private void makeNewBoard() {
+    void makeNewBoard() {
         guessPanel.removeAll();
 
         makeDefaultButtons();
@@ -64,7 +64,7 @@ public class BoardPanel extends JPanel {
         guessPanel.validate();
     }
 
-    public void redrawGuesses(ArrayList<String> imageFiles) {
+    void redrawGuesses(List<String> imageFiles) {
         for (int i = 0; i < imageFiles.size(); i++) {
             JButton button = (JButton) guessPanel.getComponent(i);
             try {
@@ -89,12 +89,12 @@ public class BoardPanel extends JPanel {
         validate();
     }
 
-    public void updateGameRows(int gameRows) {
+    void updateGameRows(int gameRows) {
         this.gameRows = gameRows;
         makeNewBoard();
     }
 
-    public void updatePegSize(int gamePegSize) {
+    void updatePegSize(int gamePegSize) {
         this.gamePegSize = gamePegSize;
         makeNewBoard();
     }

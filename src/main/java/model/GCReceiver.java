@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
 public class GCReceiver implements GameSubject {
 
-    private ArrayList<GameObserver> observers;
-    private ArrayList<GameState> pastStates;
+    private List<GameObserver> observers;
+    private List<GameState> pastStates;
     private Log log;
 
-    public GCReceiver(GameController gameController) {
+    GCReceiver(GameController gameController) {
         observers = new ArrayList<>();
         observers.add(new GUIObserver(gameController));
         pastStates = new ArrayList<>();

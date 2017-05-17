@@ -32,7 +32,7 @@ public class Options extends JFrame implements ActionListener, KeyListener {
      * The options pop up menu
      */
 
-    public Options(MainGUIPanel gui) {
+    Options(MainGUIPanel gui) {
         this._gui = gui;
 
         newGame = false;
@@ -58,7 +58,7 @@ public class Options extends JFrame implements ActionListener, KeyListener {
 
     }
 
-    public void newGame() {
+    void newGame() {
         setVisible(true);
         this.newGame = true;
         codeBreaker.setEnabled(true);
@@ -66,7 +66,7 @@ public class Options extends JFrame implements ActionListener, KeyListener {
     }
 
     @SuppressWarnings({"unchecked", "rawtypes"})
-    public void makeContainer() {
+    void makeContainer() {
         String[] players = {"Human", "Computer"};
 
         JPanel mainLayout = new JPanel(new GridBagLayout());

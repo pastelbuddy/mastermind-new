@@ -5,7 +5,7 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
 public class Feedback {
 
@@ -26,7 +26,7 @@ public class Feedback {
         this.pegSize = pegSize;
     }
 
-    public Feedback(List<String> pegNames) {
+    Feedback(List<String> pegNames) {
         List<FeedbackPegs> feedback = new ArrayList<>();
         pegNames.stream().map(FeedbackPegs::valueOf).forEach(feedback::add);
         this.feedbackPegs = feedback;
@@ -45,7 +45,7 @@ public class Feedback {
         return true;
     }
 
-    public static List<String> makeFeedbackImageNameList(List<Feedback> allFeedback) {
+    static List<String> makeFeedbackImageNameList(List<Feedback> allFeedback) {
         ArrayList<String> feedbackString = new ArrayList<>();
 
         for (Feedback feedback : allFeedback) {
@@ -81,7 +81,7 @@ public class Feedback {
         return result.toString();
     }
 
-    public List<String> converToArray() {
+    List<String> convertToArray() {
         feedbackArray = new ArrayList<>();
         feedbackPegs.forEach(peg -> feedbackArray.add(peg.toString()));
         return feedbackArray;

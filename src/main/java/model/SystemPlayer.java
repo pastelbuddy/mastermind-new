@@ -4,7 +4,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
 public class SystemPlayer implements Player {
 
@@ -18,16 +18,9 @@ public class SystemPlayer implements Player {
         return "GIMP";
     }
 
-    /**
-     * Generates feedback based on the code and the answer
-     *
-     * @param guess  - The code that is being guessed
-     * @param answer - The solution code
-     * @return feedback - The feedback for this round of mastermind
-     */
-    public Feedback generateFeedback(Code guess, Code answer) {
+     Feedback generateFeedback(Code guess, Code answer) {
         int numFeedbackPegs = 0;
-        //Gets the magnitude of the intersection of the guess and the answer
+         //Gets the magnitude of the intersection of the guess and the answer
         for (CodePegs color : CodePegs.values()) {
             numFeedbackPegs += Math.min(getNumOccur(color, guess.getCodePegs()),
                     getNumOccur(color, answer.getCodePegs()));

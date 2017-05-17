@@ -5,19 +5,19 @@ import java.util.List;
 import java.util.Objects;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
 public class Code {
 
     private List<CodePegs> codePegs;
     private int pegSize;
 
-    public Code(List<CodePegs> codePegs, int pegSize) {
+    Code(List<CodePegs> codePegs, int pegSize) {
         if (codePegs.size() != pegSize) {
             throw new IllegalArgumentException();
         }
 
-        if (codePegs.stream().anyMatch(Objects::isNull)){
+        if (codePegs.stream().anyMatch(Objects::isNull)) {
             throw new IllegalArgumentException();
         }
 
@@ -31,7 +31,7 @@ public class Code {
         this.codePegs = guesses;
     }
 
-    public static List<String> makeGuessImageList(List<Code> allGuesses) {
+    static List<String> makeGuessImageList(List<Code> allGuesses) {
         List<String> guesses = new ArrayList<>();
         allGuesses.stream()
                 .map(Code::getCodePegs)

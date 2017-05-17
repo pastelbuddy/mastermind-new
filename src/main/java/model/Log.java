@@ -5,24 +5,24 @@ import java.io.FileWriter;
 import java.io.IOException;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
-public class Log {
+class Log {
 
     private boolean enabled;
     private String filename;
     private BufferedWriter output;
 
-    public Log() {
+    Log() {
         this.filename = "Log.txt";
         enabled = false;
     }
 
-    public boolean getEnabled() {
+    boolean getEnabled() {
         return enabled;
     }
 
-    public void setEnabled(boolean enabled) {
+    void setEnabled(boolean enabled) {
         this.enabled = enabled;
         if (enabled)
             try {
@@ -41,7 +41,7 @@ public class Log {
             }
     }
 
-    public void addEvent(String event) {
+    void addEvent(String event) {
         try {
             output.write(event + "\n");
             output.flush();
@@ -51,7 +51,7 @@ public class Log {
         }
     }
 
-    public void setFilename(String filename) {
+    void setFilename(String filename) {
         this.filename = filename;
     }
 }

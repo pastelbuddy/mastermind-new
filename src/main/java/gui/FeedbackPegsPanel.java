@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by ad on 2017-05-14.
@@ -32,8 +32,6 @@ public class FeedbackPegsPanel extends JPanel {
         // reset the guess panel and guesses
         pegsPanel = new JPanel();
 
-        ImageIcon blank = new ImageIcon(getClass().getResource(NONE));
-
         makeDefaultButtons();
 
         pegsPanel.setLayout(new GridLayout(gameRows, gamePegSize, 25, 7));
@@ -54,10 +52,8 @@ public class FeedbackPegsPanel extends JPanel {
         }
     }
 
-    private void makeNewFeedbackBoard() {
+    void makeNewFeedbackBoard() {
         pegsPanel.removeAll();
-
-        ImageIcon blank = new ImageIcon(getClass().getResource(NONE));
 
         makeDefaultButtons();
 
@@ -65,7 +61,7 @@ public class FeedbackPegsPanel extends JPanel {
         pegsPanel.repaint();
     }
 
-    private void redrawFeedback(ArrayList<String> imageFiles) {
+    void redrawFeedback(List<String> imageFiles) {
         for (int i = 0; i < imageFiles.size(); i++) {
             JButton button = (JButton) pegsPanel.getComponent(i);
             try {

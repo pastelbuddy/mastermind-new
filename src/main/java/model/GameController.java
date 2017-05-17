@@ -1,5 +1,6 @@
 package model;
 
+import command.*;
 import gui.MainGUIPanel;
 
 import javax.swing.*;
@@ -7,7 +8,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
 public class GameController {
 
@@ -16,15 +17,17 @@ public class GameController {
     private static final Integer DEFAULT_GAME_PEG_SIZE = 4;
     private static final String DEFAULT_GAME_MODE = "Novice";
     private static String next;
+
     /* Required instance variables for all games */
     private Player CM, CB, SP;
     private GCReceiver receiver;
     private GameState currentState;
     private boolean newGame;
-    private boolean GUI;
+    private boolean isGUI;
     private boolean win;
+
     /* Game user interfaces */
-    private MainGUIPanel _GUI;
+    private MainGUIPanel GUI;
     private String gameMode;
     private int gameRows;
     private int gamePegSize;
@@ -38,19 +41,17 @@ public class GameController {
         newGame = false;
         count = 0;
         next = "nope";
-        if (userInterface.equals("GUI")) {
-            _GUI = new MainGUIPanel(this, DEFAULT_GAME_ROWS, DEFAULT_GAME_PEG_SIZE);
-            GUI = true;
+        if (userInterface.equals("isGUI")) {
+            GUI = new MainGUIPanel(this, DEFAULT_GAME_ROWS, DEFAULT_GAME_PEG_SIZE);
+            isGUI = true;
         }
         setGamePegSize(DEFAULT_GAME_PEG_SIZE);
         setGameRows(DEFAULT_GAME_ROWS);
         setGameMode(DEFAULT_GAME_MODE);
-        if (GUI) {
+        if (isGUI) {
             receiver.addState(new GameState());
         }
     }
-
-    // Getters
 
     private Player getCurrentPlayer() {
         if (currentState.getNumGamePlays() % 2 == 0) {
@@ -72,8 +73,6 @@ public class GameController {
         return this.gamePegSize;
     }
 
-    // Setters
-
     public int getRows() {
         return this.gameRows;
     }
@@ -89,10 +88,10 @@ public class GameController {
             } else if (i == 1 && newGame) {
                 if (settings.get(i).equals("Human")) {
                     CM = new Human(this, receiver);
-                    _GUI.newHumanSolution();
+                    GUI.newHumanSolution();
                 } else {
                     CM = new Computer(this);
-                    _GUI.newComputerSolution();
+                    GUI.newComputerSolution();
                     addAnswer(((Computer) CM).fillColor(gamePegSize));
                 }
             } else if (i == 2) {
@@ -111,7 +110,7 @@ public class GameController {
                 setGameRows(Integer.parseInt(settings.get(i)));
             } else if (i == 7 && newGame) {
                 setGameMode(settings.get(i));
-                _GUI.drawBoard();
+                GUI.drawBoard();
                 newGame = false;
             }
         }
@@ -119,14 +118,11 @@ public class GameController {
 
     public void setGameRows(int gameRows) {
         this.gameRows = gameRows;
-        if (_GUI != null) {
-            _GUI.updateGameRows(gameRows);
+        if (GUI != null) {
+            GUI.updateGameRows(gameRows);
         }
     }
 
-    /**
-     * CLI updateCodeBreaker
-     */
     public void updateCodeBreaker(List<String> strings) {
         if (strings.get(0).equals("h")) {
             CB = new Human(this, receiver);
@@ -146,8 +142,8 @@ public class GameController {
 
     public void setGamePegSize(int gamePegSize) {
         this.gamePegSize = gamePegSize;
-        if (_GUI != null) {
-            _GUI.updateGameRows(gamePegSize);
+        if (GUI != null) {
+            GUI.updateGameRows(gamePegSize);
         }
     }
 
@@ -164,33 +160,18 @@ public class GameController {
         done.add("BLACK");
         count += 1;
         if (currentState.getLastFeedback() != null) {
-            if (currentState.getStatus().contains("won") || currentState.getLastFeedback().converToArray().equals(done)) {
+            if (currentState.getStatus().contains("won") || currentState.getLastFeedback().convertToArray().equals(done)) {
                 win = true;
                 next = "win";
             }
         }
-        if (GUI) {
+        if (isGUI) {
             GUIUpdate();
-        } else if (!GUI) {
-            CLIUpdate();
-        }
-    }
-
-    public void CLIUpdate() {
-        if (_CLI != null) {
-            try {
-                _CLI.setGuess(currentState.getLastGuess().toString());
-            } catch (IndexOutOfBoundsException e) {
-            }
-        }
-        if (currentState.getLastFeedback() != null) {
-            _CLI.setFeedback(currentState.getLastFeedback().toString());
-            _CLI.setGuess(currentState.getLastGuess().toString());
         }
     }
 
     public void GUIUpdate() {
-        _GUI.setStatus(currentState.getStatus());
+        GUI.setStatus(currentState.getStatus());
         if (currentState.getAnswer() != null && !currentState.getStatus().contains("won")) {
             if (getCurrentPlayer().getName().equals("model.Computer") && CM == getCurrentPlayer()) {
                 next = "cp_feedbk";
@@ -198,10 +179,10 @@ public class GameController {
                 next = "cp_guess";
             }
             if (getCurrentPlayer().getName().equals("model.Human") && CM == getCurrentPlayer()) {
-                _GUI.showFeedbackPanel();
+                GUI.showFeedbackPanel();
                 next = "human";
             } else if (getCurrentPlayer().getName().equals("model.Human") && CB == getCurrentPlayer()) {
-                _GUI.showGuessPanel();
+                GUI.showGuessPanel();
                 next = "human";
             }
         }
@@ -221,21 +202,21 @@ public class GameController {
         } else if (next.equals("cp_feedbk") && getCurrentPlayer().getName().equals("model.Computer") && win == false) {
             drawBoard();
             computerFeedback();
-        } else return;
+        }
     }
 
     public void computerFeedback() {
-        if (GUI) {
+        if (isGUI) {
             Runnable temp = () -> {
                 Feedback f = ((SystemPlayer) SP).generateFeedback(currentState.getLastGuess(), currentState.getAnswer());
-                addFeedback(f.converToArray());
+                addFeedback(f.convertToArray());
 
             };
             SwingUtilities.invokeLater(temp);
 
         } else {
             Feedback f = ((SystemPlayer) SP).generateFeedback(currentState.getLastGuess(), currentState.getAnswer());
-            addFeedback(f.converToArray());
+            addFeedback(f.convertToArray());
         }
     }
 
@@ -248,77 +229,48 @@ public class GameController {
         return ((Computer) getCurrentPlayer()).fillColor(gamePegSize);
     }
 
-    // Additional Methods
 
-    /**
-     * Adds a guess to the gameState
-     */
     public void addGuess(List<String> pegNames) {
-        Code guess = new Code(pegNames, pegNames.size());
+        Code guess = new Code(pegNames);
         GameCommand newGuess = new SubmitGuessCommand(receiver, guess, gameRows);
         getCurrentPlayer().makeCommand(newGuess);
-        if (GUI) {
-            _GUI.validate();
-            drawBoard();
-            whosNext();
-            drawBoard();
-            _GUI.validate();
-        }
+        isGUI();
     }
 
-    /**
-     * Adds a feedback to the gameState
-     */
     public void addFeedback(List<String> pegNames) {
-        Feedback feedback = new Feedback(pegNames, gamePegSize);
+        Feedback feedback = new Feedback(pegNames);
         GameCommand newFeedback = new SubmitFeedbackCommand(receiver, feedback, gameRows);
         getCurrentPlayer().makeCommand(newFeedback);
-        if (GUI) {
-            _GUI.validate();
-            drawBoard();
-            whosNext();
-            drawBoard();
-            _GUI.validate();
-        }
+        isGUI();
     }
 
-    /**
-     * Adds an answer to the gameState
-     */
     public void addAnswer(List<String> pegNames) {
-        Code code = new Code(pegNames, gamePegSize);
+        Code code = new Code(pegNames);
         GameCommand newGuess = new SubmitAnswerCommand(receiver, code);
         getCurrentPlayer().makeCommand(newGuess);
-        if (GUI) {
-            _GUI.validate();
+        isGUI();
+    }
+
+    private void isGUI() {
+        if (isGUI) {
+            GUI.validate();
             drawBoard();
             whosNext();
             drawBoard();
-            _GUI.validate();
+            GUI.validate();
         }
     }
 
-    /**
-     * Converts a list of guesses into a list of strings who's names
-     * correspond to the appropriate image file.
-     */
     public List<String> makeGuessImageNameList() {
         return Code.makeGuessImageList(currentState.getGuesses());
     }
 
-    /**
-     * Converts a list of feedback into a list of strings who's names
-     * correspond to the appropriate image file.
-     */
     public List<String> makeFeedbackImageNameList() {
         return Feedback.makeFeedbackImageNameList(currentState.getFeedback());
     }
 
-    /**
-     * Encapsulate answer Code in array and pass to static Code method.
-     */
     public List<String> makeSolutionImageNameList() {
-        List<Code> answerString = new ArrayList<Code>();
+        List<Code> answerString = new ArrayList<>();
         answerString.add(currentState.getAnswer());
         return Code.makeGuessImageList(answerString);
     }

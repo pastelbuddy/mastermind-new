@@ -1,15 +1,15 @@
 package model;
 
 /**
- * Created by ad on 2017-05-14.
+ * Created by Joanna Kanas
  */
-public class GUIObserver {
+public class GUIObserver implements GameObserver {
 
     private GameState subject;
     private GameController gameController;
     private String next;
 
-    public GUIObserver(GameController gameController) {
+    GUIObserver(GameController gameController) {
         this.gameController = gameController;
     }
 
