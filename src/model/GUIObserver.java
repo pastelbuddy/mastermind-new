@@ -1,17 +1,9 @@
-/**
- * GUIObserver.java
- * <p>
- * A ConcreteObserver for the observer pattern.
- *
- * @author peter
- */
-
 package model;
 
 public class GUIObserver implements GameObserver {
 
     private GameState subject;
-    private GameController gameController;
+    private final GameController gameController;
     @SuppressWarnings("unused")
     private String next;
 

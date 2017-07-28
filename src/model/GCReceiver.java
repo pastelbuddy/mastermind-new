@@ -1,19 +1,13 @@
-/**
- * GCReciever.java
- * <p>
- * The ConcreteSubject for the Observer pattern
- * and a receiver for the Command pattern.
- */
-
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GCReceiver implements GameSubject {
 
-    private ArrayList<GameObserver> observers;
-    private ArrayList<GameState> pastStates;
-    private Log log;
+    private final List<GameObserver> observers;
+    private final List<GameState> pastStates;
+    private final Log log;
 
     public GCReceiver(GameController gameController) {
         observers = new ArrayList<>();
@@ -22,7 +16,7 @@ public class GCReceiver implements GameSubject {
         log = new Log();
     }
 
-    public ArrayList<GameState> getPastStates() {
+    public List<GameState> getPastStates() {
         return pastStates;
     }
 
@@ -32,7 +26,6 @@ public class GCReceiver implements GameSubject {
 
     public void detach(GameObserver gameObserver) {
         this.observers.remove(gameObserver);
-
     }
 
     public void notifyObservers() {
@@ -51,8 +44,9 @@ public class GCReceiver implements GameSubject {
     }
 
     public void undoStates(int numStatesUndo) {
-        for (int i = numStatesUndo; i > 0; i--)
+        for (int i = numStatesUndo; i > 0; i--) {
             this.pastStates.remove(pastStates.size() - 1);
+        }
 
         GameState tempState = new GameState(getState());
         this.pastStates.remove(this.pastStates.size() - 1);
@@ -61,8 +55,9 @@ public class GCReceiver implements GameSubject {
     }
 
     public void sendToLog(String event) {
-        if (log.getEnabled())
+        if (log.getEnabled()) {
             log.addEvent(event);
+        }
     }
 
     public void enableLog(String filename) {
@@ -71,8 +66,10 @@ public class GCReceiver implements GameSubject {
         }
         log.setFilename(filename);
         log.setEnabled(true);
-        for (String event : getState().createLogFromGameState())
+
+        for (String event : getState().createLogFromGameState()) {
             log.addEvent(event);
+        }
     }
 
     public void updateStatus(String newStatus) {

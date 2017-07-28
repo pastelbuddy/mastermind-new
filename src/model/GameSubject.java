@@ -1,12 +1,3 @@
-/**
- * GameSubject.java
- * <p>
- * GameSubject defines all methods necessary for all ConcreteSubjects,
- * which are Receivers for the Command pattern.
- *
- * @author peter
- */
-
 package model;
 
 public interface GameSubject {

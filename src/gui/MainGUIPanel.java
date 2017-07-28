@@ -4,20 +4,20 @@ import model.GameController;
 
 import javax.swing.*;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class MainGUIPanel extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private FileMenu fileMenu;
-    private SubmitGuessPanel guessPanel;
-    private SubmitFeedbackPanel feedbackPanel;
-    private BoardPanel boardPanel;
-    private FeedbackPegsPanel feedbackPegsPanel;
-    private GameController gameController;
-    private JLabel gameStatus;
-    private SolutionPanel solutionPanel;
-    private JPanel cards;
+    private final FileMenu fileMenu;
+    private final SubmitGuessPanel guessPanel;
+    private final SubmitFeedbackPanel feedbackPanel;
+    private final BoardPanel boardPanel;
+    private final FeedbackPegsPanel feedbackPegsPanel;
+    private final GameController gameController;
+    private final JLabel gameStatus;
+    private final SolutionPanel solutionPanel;
+    private final JPanel cards;
 
     public MainGUIPanel(GameController gameController, Integer gameRows, Integer gamePegSize) {
         solutionPanel = new SolutionPanel(this);
@@ -94,11 +94,11 @@ public class MainGUIPanel extends JFrame {
         validate();
     }
 
-    public void addGuess(ArrayList<String> pegNames) {
+    public void addGuess(List<String> pegNames) {
         gameController.addGuess(pegNames);
     }
 
-    public void addFeedback(ArrayList<String> pegNames) {
+    public void addFeedback(List<String> pegNames) {
         gameController.addFeedback(pegNames);
     }
 
@@ -110,11 +110,11 @@ public class MainGUIPanel extends JFrame {
         solutionPanel.newGameComputer();
     }
 
-    public void setOptions(ArrayList<String> settings) {
+    public void setOptions(List<String> settings) {
         gameController.setConfiguration(settings);
     }
 
-    public void setSolutionCode(ArrayList<String> str) {
+    public void setSolutionCode(List<String> str) {
         gameController.addAnswer(str);
     }
 

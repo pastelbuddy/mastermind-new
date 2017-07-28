@@ -7,8 +7,8 @@ import model.GameState;
 
 public class SubmitAnswerCommand implements GameCommand {
 
-    private GCReceiver receiver;
-    private Code answerCode;
+    private final GCReceiver receiver;
+    private final Code answerCode;
 
     public SubmitAnswerCommand(GCReceiver receiver, Code answerCode) {
         this.receiver = receiver;

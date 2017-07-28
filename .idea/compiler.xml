@@ -9,7 +9,7 @@
         <module name="mastermind-new" />
       </profile>
     </annotationProcessing>
-    <bytecodeTargetLevel>
+    <bytecodeTargetLevel target="1.8">
       <module name="mastermind-new" target="1.8" />
     </bytecodeTargetLevel>
   </component>

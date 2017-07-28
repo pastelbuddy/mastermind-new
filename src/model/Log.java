@@ -1,11 +1,3 @@
-/**
- * Log.java
- *
- * @author Jeremy
- * <p>
- * This class handles logging everything that happens in the game
- */
-
 package model;
 
 import java.io.BufferedWriter;
@@ -25,21 +17,23 @@ public class Log {
 
     public void setEnabled(boolean enabled) {
         this.enabled = enabled;
-        if (enabled)
+        if (enabled) {
             try {
                 output = new BufferedWriter(new FileWriter(filename));
             } catch (IOException e) {
                 System.err.println("Error opening log file for writing.");
                 System.err.println(e.getMessage());
             }
-        else
+        } else {
             try {
-                if (output != null)
+                if (output != null) {
                     output.close();
+                }
             } catch (IOException e) {
                 System.err.println("Error closing log file.");
                 System.err.println(e.getMessage());
             }
+        }
     }
 
     public boolean getEnabled() {

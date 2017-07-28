@@ -4,7 +4,7 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class BoardPanel extends JPanel {
 
@@ -27,10 +27,9 @@ public class BoardPanel extends JPanel {
         drawInitialGuesses();
 
         this.add(guessPanel);
-
     }
 
-    public void drawInitialGuesses() {
+    private void drawInitialGuesses() {
         // reset the guess panel and guesses.
         guessPanel = new JPanel();
 
@@ -67,14 +66,14 @@ public class BoardPanel extends JPanel {
         guessPanel.validate();
     }
 
-    public void redrawGuesses(ArrayList<String> imageFiles) {
+    public void redrawGuesses(List<String> imageFiles) {
         for (int i = 0; i < imageFiles.size(); i++) {
             JButton button = (JButton) guessPanel.getComponent(i);
             try {
                 Image img = ImageIO.read(getClass().getResource(imageFiles.get(i)));
                 button.setIcon(new ImageIcon(img));
                 button.setEnabled(true);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
 
@@ -85,7 +84,7 @@ public class BoardPanel extends JPanel {
             try {
                 button.setIcon(blank);
                 button.setEnabled(true);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
         validate();

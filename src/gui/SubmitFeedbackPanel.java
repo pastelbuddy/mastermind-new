@@ -6,11 +6,13 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SubmitFeedbackPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
-    private String[] _pegs = {"NONE", "BLACK", "WHITE"};
+    private MainGUIPanel gui;
+    private final String[] pegs = {"NONE", "BLACK", "WHITE"};
     @SuppressWarnings("rawtypes")
     private JComboBox pegOne;
     @SuppressWarnings("rawtypes")
@@ -19,7 +21,6 @@ public class SubmitFeedbackPanel extends JPanel {
     private JComboBox pegThree;
     @SuppressWarnings("rawtypes")
     private JComboBox pegFour;
-    public MainGUIPanel gui;
 
     public JPanel makeFeedPanel(MainGUIPanel guiPanel) {
         gui = guiPanel;
@@ -36,7 +37,7 @@ public class SubmitFeedbackPanel extends JPanel {
         return feedBackPanel;
     }
 
-    public JPanel undoPanel() {
+    private JPanel undoPanel() {
         JPanel undoPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
 
@@ -53,7 +54,7 @@ public class SubmitFeedbackPanel extends JPanel {
         return undoPanel;
     }
 
-    public JPanel submitPanel() {
+    private JPanel submitPanel() {
         JPanel submitPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
 
@@ -70,18 +71,18 @@ public class SubmitFeedbackPanel extends JPanel {
         return submitPanel;
     }
 
-    public ArrayList<String> getSelectedPegs() {
-        ArrayList<String> selected = new ArrayList<>();
+    private List<String> getSelectedPegs() {
+        List<String> selected = new ArrayList<>();
 
-        selected.add(_pegs[pegOne.getSelectedIndex()]);
-        selected.add(_pegs[pegTwo.getSelectedIndex()]);
-        selected.add(_pegs[pegThree.getSelectedIndex()]);
-        selected.add(_pegs[pegFour.getSelectedIndex()]);
+        selected.add(pegs[pegOne.getSelectedIndex()]);
+        selected.add(pegs[pegTwo.getSelectedIndex()]);
+        selected.add(pegs[pegThree.getSelectedIndex()]);
+        selected.add(pegs[pegFour.getSelectedIndex()]);
 
         return selected;
     }
 
-    public void reset() {
+    private void reset() {
         pegOne.setSelectedIndex(0);
         pegTwo.setSelectedIndex(0);
         pegThree.setSelectedIndex(0);
@@ -89,8 +90,7 @@ public class SubmitFeedbackPanel extends JPanel {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public JPanel guessSelectPanel() {
-
+    private JPanel guessSelectPanel() {
         ImageIcon none = new ImageIcon(getClass().getResource("NONE.png"));
         ImageIcon black = new ImageIcon(getClass().getResource("FEEDBK_BLACK.png"));
         ImageIcon white = new ImageIcon(getClass().getResource("FEEDBK_WHITE.png"));

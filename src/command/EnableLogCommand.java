@@ -5,8 +5,8 @@ import model.GameCommand;
 
 public class EnableLogCommand implements GameCommand {
 
-    private GCReceiver receiver;
-    private String filename;
+    private final GCReceiver receiver;
+    private final String filename;
 
     public EnableLogCommand(GCReceiver receiver, String filename) {
         this.receiver = receiver;

@@ -7,9 +7,9 @@ import model.GameState;
 
 public class SubmitGuessCommand implements GameCommand {
 
-    private GCReceiver receiver;
-    private Code guess;
-    private int gameRows;
+    private final GCReceiver receiver;
+    private final Code guess;
+    private final int gameRows;
 
     public SubmitGuessCommand(GCReceiver receiver, Code guess, int gameRows) {
         this.receiver = receiver;
@@ -30,5 +30,4 @@ public class SubmitGuessCommand implements GameCommand {
         receiver.addState(newState);
         receiver.sendToLog("Codebreaker guessed: " + guess);
     }
-
 }

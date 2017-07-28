@@ -9,24 +9,26 @@ import java.awt.event.KeyListener;
 import java.io.File;
 import java.util.ArrayList;
 import java.util.Hashtable;
+import java.util.List;
+import java.util.Objects;
 
 public class Options extends JFrame implements ActionListener, KeyListener {
 
     private static final long serialVersionUID = 1L;
-    private JTextField logLoc = new JTextField();
-    private JButton submit = new JButton("Submit");
-    private JCheckBox log = new JCheckBox();
+    private final JTextField logLoc = new JTextField();
+    private final JButton submit = new JButton("Submit");
+    private final JCheckBox log = new JCheckBox();
     @SuppressWarnings("rawtypes")
     private JComboBox codeMaker, codeBreaker;
     private JSlider computerDifficulty;
     private JSlider computerResponse;
     private JSlider numOfGuesses;
     private JSlider gameMode;
-    private MainGUIPanel _gui;
+    private final MainGUIPanel guiPanel;
     private boolean newGame = false;
 
-    public Options(MainGUIPanel gui) {
-        this._gui = gui;
+    public Options(MainGUIPanel guiPanel) {
+        this.guiPanel = guiPanel;
 
         newGame = false;
         setSize(750, 400);
@@ -122,14 +124,14 @@ public class Options extends JFrame implements ActionListener, KeyListener {
         gameMode.setSnapToTicks(true);
         gameMode.setMajorTickSpacing(1);
 
-        Hashtable<Integer, JLabel> labelTable = new Hashtable<Integer, JLabel>();
+        Hashtable<Integer, JLabel> labelTable = new Hashtable<>();
         labelTable.put(1, new JLabel("Novice"));
         labelTable.put(2, new JLabel("Expert"));
         gameMode.setLabelTable(labelTable);
         contents.add(gameMode);
 
-        JLabel emptypLabel3 = new JLabel("");
-        contents.add(emptypLabel3);
+        JLabel emptyLabel3 = new JLabel("");
+        contents.add(emptyLabel3);
 
         JLabel emptyLabel4 = new JLabel("");
         contents.add(emptyLabel4);
@@ -138,8 +140,8 @@ public class Options extends JFrame implements ActionListener, KeyListener {
         contents.add(emptyLabel5);
 
         submit.addActionListener(e -> {
-            if (codeBreaker.getSelectedItem().toString().equals("Computer") && !newGame) {
-                _gui.showFeedbackPanel();
+            if (Objects.equals("Computer", codeBreaker.getSelectedItem().toString()) && !newGame) {
+                guiPanel.showFeedbackPanel();
             }
             if (newGame) {
                 newGame = false;
@@ -159,7 +161,7 @@ public class Options extends JFrame implements ActionListener, KeyListener {
             codeBreaker.setEnabled(false);
             codeMaker.setEnabled(false);
 
-            ArrayList<String> formInfo = new ArrayList<String>();
+            List<String> formInfo = new ArrayList<>();
             formInfo.add("" + codeBreaker.getSelectedItem());
             formInfo.add("" + codeMaker.getSelectedItem());
             formInfo.add("" + log.isSelected());
@@ -169,8 +171,7 @@ public class Options extends JFrame implements ActionListener, KeyListener {
             formInfo.add("" + numOfGuesses.getValue());
             formInfo.add("" + gameMode.getValue());
 
-            _gui.setOptions(formInfo);
-
+            guiPanel.setOptions(formInfo);
         });
         contents.add(submit);
 

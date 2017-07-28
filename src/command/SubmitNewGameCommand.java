@@ -5,7 +5,7 @@ import model.GameCommand;
 
 public class SubmitNewGameCommand implements GameCommand {
 
-    private GCReceiver receiver;
+    private final GCReceiver receiver;
 
     public SubmitNewGameCommand(GCReceiver receiver) {
         this.receiver = receiver;

@@ -11,7 +11,6 @@ public class FileMenu {
     private Options optionPopup;
 
     public JMenuBar makeFileMenu(MainGUIPanel gui) {
-
         this.mainPanel = gui;
         optionPopup = new Options(mainPanel);
 

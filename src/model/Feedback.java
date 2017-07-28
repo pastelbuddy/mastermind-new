@@ -1,14 +1,7 @@
-/**
- * Feedback.java
- *
- * @author Jeremy
- * <p>
- * This class represents the codemaker's feedback to a guess
- */
-
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 import java.util.Objects;
 
 public class Feedback {
@@ -28,12 +21,11 @@ public class Feedback {
 
         this.feedback = feedback;
         this.pegSize = pegSize;
-        
+
 
     }
 
-    public Feedback(ArrayList<String> pegNames, int pegSize) {
-
+    public Feedback(List<String> pegNames, int pegSize) {
         FeedbackPegs[] feedback = new FeedbackPegs[pegSize];
 
         for (int i = 0; i < pegNames.size(); i++) {
@@ -52,15 +44,17 @@ public class Feedback {
 
     public String toString() {
         StringBuilder result = new StringBuilder("{");
-        for (int i = 0; i < this.pegSize; i++)
+        for (int i = 0; i < this.pegSize; i++) {
             result.append(feedback[i]).append(", ");
+        }
+
         result = new StringBuilder(result.substring(0, result.length() - 2));
         result.append("}");
         return result.toString();
     }
 
-    public ArrayList<String> convertToArray() {
-        ArrayList<String> feedbackArray = new ArrayList<>();
+    public List<String> convertToArray() {
+        List<String> feedbackArray = new ArrayList<>();
         for (FeedbackPegs peg : feedback) {
             feedbackArray.add(peg.toString());
         }
@@ -80,8 +74,8 @@ public class Feedback {
         return true;
     }
 
-    public static ArrayList<String> makeFeedbackImageNameList(ArrayList<Feedback> allFeedback) {
-        ArrayList<String> feedbackString = new ArrayList<>();
+    public static List<String> makeFeedbackImageNameList(List<Feedback> allFeedback) {
+        List<String> feedbackString = new ArrayList<>();
         //iterate the feedback
         for (Feedback anAllFeedback : allFeedback) {
             FeedbackPegs[] currFeedback = anAllFeedback.getFeedback();

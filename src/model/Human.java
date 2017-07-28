@@ -1,11 +1,3 @@
-/**
- * Human.java
- * <p>
- * This is a Human Player that overrides both the Player functions.
- *
- * @author Josh Eklund
- */
-
 package model;
 
 import command.SubmitFeedbackCommand;
@@ -13,12 +5,11 @@ import command.SubmitGuessCommand;
 
 public class Human implements Player {
 
-    private GCReceiver receiver;
-    private String name;
-    private GameController controller;
+    private final GCReceiver receiver;
+    private final String name;
+    private final GameController controller;
 
     public Human(GameController controller, GCReceiver receiver) {
-
         this.receiver = receiver;
         this.name = this.getClass().getName();
         this.controller = controller;

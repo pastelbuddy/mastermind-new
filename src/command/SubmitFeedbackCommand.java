@@ -7,9 +7,9 @@ import model.GameState;
 
 public class SubmitFeedbackCommand implements GameCommand {
 
-    private GCReceiver receiver;
-    private Feedback feedback;
-    private int gameRows;
+    private final GCReceiver receiver;
+    private final Feedback feedback;
+    private final int gameRows;
 
     public SubmitFeedbackCommand(GCReceiver receiver, Feedback feedback, int gameRows) {
         this.receiver = receiver;
@@ -18,7 +18,6 @@ public class SubmitFeedbackCommand implements GameCommand {
     }
 
     public void execute() {
-
         GameState newState = new GameState(receiver.getState());
         newState.addFeedback(feedback);
         newState.setStatus("Received CodeMaker's feedback. Waiting for Codebreaker's next guess.");
@@ -33,8 +32,5 @@ public class SubmitFeedbackCommand implements GameCommand {
         if (winCheck.win(gameRows)) {
             winCheck.execute();
         }
-
-
     }
-
 }

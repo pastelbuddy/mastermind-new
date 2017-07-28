@@ -5,10 +5,12 @@ import model.GCReceiver;
 import model.GameCommand;
 import model.GameState;
 
+import java.util.Objects;
+
 public class WinCommand implements GameCommand {
 
-    private GCReceiver receiver;
-    private GameState currState;
+    private final GCReceiver receiver;
+    private final GameState currState;
 
     public WinCommand(GCReceiver receiver) {
         this.receiver = receiver;
@@ -16,7 +18,6 @@ public class WinCommand implements GameCommand {
     }
 
     public void execute() {
-        //System.out.println("I won!");
         if (codeBreakerWin()) {
             receiver.updateStatus("Codebreaker has won!");
         } else {
@@ -25,10 +26,10 @@ public class WinCommand implements GameCommand {
     }
 
     private boolean codeBreakerWin() {
-
         FeedbackPegs[] feedback = currState.getLastFeedback().getFeedback();
+
         for (FeedbackPegs aFeedback : feedback) {
-            if (!aFeedback.equals(FeedbackPegs.BLACK)) {
+            if (!Objects.equals(FeedbackPegs.BLACK, aFeedback)) {
                 return false;
             }
         }
@@ -42,5 +43,4 @@ public class WinCommand implements GameCommand {
     public boolean win(int gameRows) {
         return codeBreakerWin() || codeMakerWin(gameRows);
     }
-
 }

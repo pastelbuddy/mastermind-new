@@ -1,20 +1,21 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
 
 public class GameState {
 
     private Code answerCode;
-    private ArrayList<Code> guesses;
-    private ArrayList<Feedback> feedback;
+    private final List<Code> guesses;
+    private final List<Feedback> feedback;
     private String status;
 
     public GameState() {
         this.answerCode = null;
         this.guesses = new ArrayList<>();
         this.feedback = new ArrayList<>();
-        this.status = "Press File > \"New Game\" to begin a new game.";
-    }
+        this.status = "Press \"File\" > \"New Game\" to start a new game.";
+}
 
     public GameState(GameState original) {
         if (original.answerCode != null) {
@@ -30,11 +31,11 @@ public class GameState {
         return guesses.get(guesses.size() - 1);
     }
 
-    public ArrayList<Code> getGuesses() {
+    public List<Code> getGuesses() {
         return this.guesses;
     }
 
-    public ArrayList<Feedback> getFeedback() {
+    public List<Feedback> getFeedback() {
         return this.feedback;
     }
 
@@ -81,8 +82,9 @@ public class GameState {
         return feedback.get(feedback.size() - 1);
     }
 
-    public ArrayList<String> createLogFromGameState() {
-        ArrayList<String> newLog = new ArrayList<>();
+    public List<String> createLogFromGameState() {
+        List<String> newLog = new ArrayList<>();
+
         for (int i = 0; i < feedback.size(); i++) {
             newLog.add("Codebreaker guessed: " + guesses.get(i));
             newLog.add("CodeMaker provided feedback: " + feedback.get(i));
@@ -90,8 +92,10 @@ public class GameState {
 
         //checks to see if we are waiting for a feedback after a guess has been placed
         //if so we need to add the most recent guess to the log
-        if (guesses.size() > feedback.size())
+        if (guesses.size() > feedback.size()) {
             newLog.add("Codebreaker guessed: " + guesses.get(guesses.size() - 1));
+        }
+
         return newLog;
     }
 }

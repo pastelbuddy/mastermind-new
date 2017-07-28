@@ -6,6 +6,7 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SubmitGuessPanel extends JPanel {
 
@@ -18,9 +19,9 @@ public class SubmitGuessPanel extends JPanel {
     private JComboBox pegThree;
     @SuppressWarnings("rawtypes")
     private JComboBox pegFour;
-    private String[] colors = {"RED", "BLUE", "GREEN", "YELLOW", "WHITE", "BLACK", "PURPLE"};
+    private final String[] colors = {"RED", "BLUE", "GREEN", "YELLOW", "WHITE", "BLACK", "PURPLE"};
 
-    public MainGUIPanel gui;
+    private MainGUIPanel gui;
 
     public JPanel makeGuessPanel(MainGUIPanel guiPanel) {
         gui = guiPanel;
@@ -37,13 +38,12 @@ public class SubmitGuessPanel extends JPanel {
         return guessPanel;
     }
 
-    public JPanel undoPanel() {
+    private JPanel undoPanel() {
         JPanel undoPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
 
         undoPanel.setLayout(new GridBagLayout());
         buttonPanel.setLayout(new GridLayout(1, 1, 30, 30));
-
 
         JButton undo = new JButton("Undo");
         undo.addActionListener(new UndoListener());
@@ -54,7 +54,7 @@ public class SubmitGuessPanel extends JPanel {
         return undoPanel;
     }
 
-    public JPanel submitPanel() {
+    private JPanel submitPanel() {
         JPanel submitPanel = new JPanel();
         JPanel buttonPanel = new JPanel();
 
@@ -71,7 +71,7 @@ public class SubmitGuessPanel extends JPanel {
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public JPanel guessSelectPanel() {
+    private JPanel guessSelectPanel() {
         ImageIcon red = new ImageIcon(getClass().getResource("RED.png"));
         ImageIcon blue = new ImageIcon(getClass().getResource("BLUE.png"));
         ImageIcon green = new ImageIcon(getClass().getResource("GREEN.png"));
@@ -97,8 +97,8 @@ public class SubmitGuessPanel extends JPanel {
         return selection;
     }
 
-    public ArrayList<String> getSelectedPegs() {
-        ArrayList<String> selected = new ArrayList<>();
+    private List<String> getSelectedPegs() {
+        List<String> selected = new ArrayList<>();
 
         selected.add(colors[pegOne.getSelectedIndex()]);
         selected.add(colors[pegTwo.getSelectedIndex()]);
@@ -108,7 +108,7 @@ public class SubmitGuessPanel extends JPanel {
         return selected;
     }
 
-    public void reset() {
+    private void reset() {
         pegOne.setSelectedIndex(0);
         pegTwo.setSelectedIndex(0);
         pegThree.setSelectedIndex(0);

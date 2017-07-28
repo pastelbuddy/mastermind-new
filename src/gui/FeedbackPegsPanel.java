@@ -4,24 +4,19 @@ import javax.imageio.ImageIO;
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
 import java.awt.*;
-import java.util.ArrayList;
+import java.util.List;
 
 public class FeedbackPegsPanel extends JPanel {
 
     private static final long serialVersionUID = 1L;
     private static final String NONE = "NONE.png";
-    private JPanel _pegsPanel;
-    private int _gameRows;
-    private int _gamePegSize;
+    private JPanel pegsPanel;
+    private int gameRows;
+    private int gamePegSize;
 
-    /**
-     * Makes a feed back panel with pegs
-     * @return that panel
-     */
     public FeedbackPegsPanel(Integer gameRows, Integer gamePegSize) {
-
-        this._gameRows = gameRows;
-        this._gamePegSize = gamePegSize;
+        this.gameRows = gameRows;
+        this.gamePegSize = gamePegSize;
 
         //Set the drawing properties for the super panel.
         this.setLayout(new GridLayout(1, 1, 5, 5));
@@ -29,83 +24,74 @@ public class FeedbackPegsPanel extends JPanel {
 
         // Make a sub-panel to display guesses.
         drawInitialPegs();
-        this.add(_pegsPanel);
+        this.add(pegsPanel);
 
     }
 
-    /**
-     * The pegs for feedback are made in the same manner as board pegs
-     * Each group is put into a separate group for editing.
-     */
-    public void drawInitialPegs() {
-
+    private void drawInitialPegs() {
         // reset the guess panel and guesses.
-        _pegsPanel = new JPanel();
+        pegsPanel = new JPanel();
 
         makeDefaultButtons();
 
         // set the feedback panel's drawing properties.
-        _pegsPanel.setBorder(new EmptyBorder(10, 25, 25, 25));
-        _pegsPanel.setLayout(new GridLayout(this._gameRows, this._gamePegSize, 5, 7));
+        pegsPanel.setBorder(new EmptyBorder(10, 25, 25, 25));
+        pegsPanel.setLayout(new GridLayout(this.gameRows, this.gamePegSize, 5, 7));
     }
 
     private void makeDefaultButtons() {
         ImageIcon blank = new ImageIcon(getClass().getResource(NONE));
 
         // make all "default" buttons.
-        for (int i = 0; i < this._gameRows; i++) {
-            for (int j = 0; j < this._gamePegSize; j++) {
+        for (int i = 0; i < this.gameRows; i++) {
+            for (int j = 0; j < this.gamePegSize; j++) {
                 JButton button = new JButton();
                 button.setBackground(Color.white);
                 button.setIcon(blank);
-                _pegsPanel.add(button);
+                pegsPanel.add(button);
             }
         }
     }
 
     public void makeNewFeedbackBoard() {
-        _pegsPanel.removeAll();
+        pegsPanel.removeAll();
 
         makeDefaultButtons();
 
-        _pegsPanel.setLayout(new GridLayout(this._gameRows, this._gamePegSize, 5, 7));
-        _pegsPanel.repaint();
+        pegsPanel.setLayout(new GridLayout(this.gameRows, this.gamePegSize, 5, 7));
+        pegsPanel.repaint();
     }
 
-    /**
-     * Redraws the feedback given an array of image filenames.
-     * @param imageFiles A list of filenames.
-     */
-    public void redrawFeedback(ArrayList<String> imageFiles) {
+    public void redrawFeedback(List<String> imageFiles) {
         for (int i = 0; i < imageFiles.size(); i++) {
-            JButton button = (JButton) _pegsPanel.getComponent(i);
+            JButton button = (JButton) pegsPanel.getComponent(i);
             try {
                 Image img = ImageIO.read(getClass().getResource(imageFiles.get(i)));
                 button.setIcon(new ImageIcon(img));
                 button.setEnabled(true);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
 
         ImageIcon blank = new ImageIcon(getClass().getResource(NONE));
 
-        for (int j = imageFiles.size(); j < this._gameRows * this._gamePegSize; j++) {
-            JButton button = (JButton) _pegsPanel.getComponent(j);
+        for (int j = imageFiles.size(); j < this.gameRows * this.gamePegSize; j++) {
+            JButton button = (JButton) pegsPanel.getComponent(j);
             try {
                 button.setIcon(blank);
                 button.setEnabled(true);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
     }
 
     public void setGameRows(int gameRows) {
-        this._gameRows = gameRows;
+        this.gameRows = gameRows;
         makeNewFeedbackBoard();
     }
 
     public void setPegSize(int gamePegSize) {
-        this._gamePegSize = gamePegSize;
+        this.gamePegSize = gamePegSize;
         makeNewFeedbackBoard();
     }
 

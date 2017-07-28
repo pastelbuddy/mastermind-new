@@ -5,235 +5,224 @@ import gui.MainGUIPanel;
 
 import javax.swing.*;
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 
 public class GameController {
 
-    /* Required instance variables for all games */
-    private Player CM, CB, SP;
+    private static final Integer DEFAULT_GAME_ROWS = 10;
+    private static final Integer DEFAULT_GAME_PEG_SIZE = 4;
+
+    private static final String DEFAULT_GAME_MODE = "Novice";
+    private static final String MODEL_COMPUTER = "model.Computer";
+    private static final String MODEL_HUMAN = "model.Human";
+    private static final String HUMAN = "human";
+    private static final String WON = "won";
+    private static final String WIN = "win";
+    private static final String CP_FEEDBACK = "cp_feedbk";
+    private static final String CP_GUESS = "cp_guess";
+
+    private Player codeMaker;
+    private Player codeBreaker;
+    private Player SP;
     private GCReceiver receiver;
     private GameState currentState;
     private boolean newGame;
-    private boolean isGUI;
     private boolean win;
 
-    /* Game user interfaces */
-    private MainGUIPanel _GUI;
+    private MainGUIPanel mainGUIPanel;
 
-    /* Dynamically defined primitives set at start of game  */
-    private static final Integer DEFAULT_GAME_ROWS = 10;
-    private static final Integer DEFAULT_GAME_PEG_SIZE = 4;
-    private static final String DEFAULT_GAME_MODE = "Novice";
     private static String next;
-    private String gameMode;
+    private static String gameMode;
     private int gameRows;
     private int gamePegSize;
     @SuppressWarnings("unused")
     private int count;
 
     public GameController(String userInterface) {
-        CM = new Human(this, receiver);
-        CB = new Human(this, receiver);
+        codeMaker = new Human(this, receiver);
+        codeBreaker = new Human(this, receiver);
         SP = new SystemPlayer();
         receiver = new GCReceiver(this);
         newGame = false;
         count = 0;
         next = "nope";
-        if (userInterface.equals("GUI")) {
-            _GUI = new MainGUIPanel(this, DEFAULT_GAME_ROWS, DEFAULT_GAME_PEG_SIZE);
-            isGUI = true;
+        if (Objects.equals("GUI", userInterface)) {
+            mainGUIPanel = new MainGUIPanel(this, DEFAULT_GAME_ROWS, DEFAULT_GAME_PEG_SIZE);
         }
         setGamePegSize(DEFAULT_GAME_PEG_SIZE);
         setGameRows(DEFAULT_GAME_ROWS);
         setGameMode(DEFAULT_GAME_MODE);
-        if (isGUI) {
-            receiver.addState(new GameState());
-        }
+        receiver.addState(new GameState());
     }
-
-    // Getters
 
     private Player getCurrentPlayer() {
         if (currentState.getNumGamePlays() % 2 == 0) {
-            return CM;
+            return codeMaker;
         } else {
-            return CB;
+            return codeBreaker;
         }
     }
 
     public String getGameMode() {
-        return this.gameMode;
+        return gameMode;
     }
 
     public int getPegSize() {
-        return this.gamePegSize;
+        return gamePegSize;
     }
 
     public int getRows() {
-        return this.gameRows;
+        return gameRows;
     }
 
-    // Setters
-
-    public void setConfiguration(ArrayList<String> settings) {
+    public void setConfiguration(List<String> settings) {
         for (int i = 0; i < settings.size(); i++) {
             if (i == 0) {
-                if (settings.get(i).equals("Human")) {
-                    CB = new Human(this, receiver);
+                if (Objects.equals("Human", settings.get(i))) {
+                    codeBreaker = new Human(this, receiver);
                 } else {
-                    CB = new Computer(this);
+                    codeBreaker = new Computer(this);
                 }
             } else if (i == 1 && newGame) {
-                if (settings.get(i).equals("Human")) {
-                    CM = new Human(this, receiver);
-                    _GUI.newHumanSolution();
+                if (Objects.equals("Human", settings.get(i))) {
+                    codeMaker = new Human(this, receiver);
+                    mainGUIPanel.newHumanSolution();
                 } else {
-                    CM = new Computer(this);
-                    _GUI.newComputerSolution();
-                    addAnswer(((Computer) CM).fillColor(gamePegSize));
+                    codeMaker = new Computer(this);
+                    mainGUIPanel.newComputerSolution();
+                    addAnswer(((Computer) codeMaker).fillColor(gamePegSize));
                 }
             } else if (i == 2) {
-                if (settings.get(i).equals("true")) {
+                if (Objects.equals("true", settings.get(i))) {
                     new EnableLogCommand(receiver, settings.get(i + 1)).execute();
                 } else {
                     new DisableLogCommand(receiver).execute();
                 }
             } else if (i == 5) {
-                if (CM.getName().equals("model.Computer")) {
-                    ((Computer) CM).setWaitTime(Integer.parseInt(settings.get(i)));
-                } else if (CB.getName().equals("model.Computer")) {
-                    ((Computer) CB).setWaitTime(Integer.parseInt(settings.get(i)));
+                if (Objects.equals(MODEL_COMPUTER, codeMaker.getName())) {
+                    ((Computer) codeMaker).setWaitTime(Integer.parseInt(settings.get(i)));
+                } else if (Objects.equals(MODEL_COMPUTER, codeBreaker.getName())) {
+                    ((Computer) codeBreaker).setWaitTime(Integer.parseInt(settings.get(i)));
                 }
             } else if (i == 6 && newGame) {
                 setGameRows(Integer.parseInt(settings.get(i)));
             } else if (i == 7 && newGame) {
                 setGameMode(settings.get(i));
-                _GUI.drawBoard();
+                mainGUIPanel.drawBoard();
                 newGame = false;
             }
         }
     }
 
 
-    public void setGameMode(String gameMode) {
-        this.gameMode = gameMode;
+    private void setGameMode(String gameMode) {
+        GameController.gameMode = gameMode;
     }
 
-    public void setGameRows(int gameRows) {
+    private void setGameRows(int gameRows) {
         this.gameRows = gameRows;
-        if (_GUI != null) {
-            _GUI.updateGameRows(gameRows);
+        if (mainGUIPanel != null) {
+            mainGUIPanel.updateGameRows(gameRows);
         }
     }
 
-    /**
-     * CLI updateCodeBreaker
-     */
-    public void updateCodeBreaker(ArrayList<String> strings) {
-        if (strings.get(0).equals("h")) {
-            CB = new Human(this, receiver);
+    public void updateCodeBreaker(List<String> strings) {
+        if (Objects.equals("h", strings.get(0))) {
+            codeBreaker = new Human(this, receiver);
         } else {
-            CB = new Computer(this);
+            codeBreaker = new Computer(this);
         }
     }
 
     public void updateCodeMaker(String s) {
-        if (s.equals("h")) {
-            CM = new Human(this, receiver);
+        if (Objects.equals("h", s)) {
+            codeMaker = new Human(this, receiver);
         } else {
-            CM = new Computer(this);
+            codeMaker = new Computer(this);
         }
     }
 
 
-    public void setGamePegSize(int gamePegSize) {
+    private void setGamePegSize(int gamePegSize) {
         this.gamePegSize = gamePegSize;
-        if (_GUI != null) {
-            _GUI.updateGameRows(gamePegSize);
+        if (mainGUIPanel != null) {
+            mainGUIPanel.updateGameRows(gamePegSize);
         }
-    }
-
-    public void setNewGame(boolean b) {
-        newGame = false;
     }
 
     public void setGameState(GameState newState) {
         currentState = newState;
-        ArrayList<String> done = new ArrayList<>();
+        List<String> done = new ArrayList<>();
         done.add("BLACK");
         done.add("BLACK");
         done.add("BLACK");
         done.add("BLACK");
         count += 1;
         if (currentState.getLastFeedback() != null) {
-            if (currentState.getStatus().contains("won") || currentState.getLastFeedback().convertToArray().equals(done)) {
+            if (currentState.getStatus().contains(WON) || Objects.equals(currentState.getLastFeedback().convertToArray(), done)) {
                 win = true;
-                next = "win";
+                next = WIN;
             }
         }
-        if (isGUI) {
-            GUIUpdate();
-        }
+        GUIUpdate();
     }
 
-    public void GUIUpdate() {
-        _GUI.setStatus(currentState.getStatus());
-        if (currentState.getAnswer() != null && !currentState.getStatus().contains("won")) {
-            if (getCurrentPlayer().getName().equals("model.Computer") && CM == getCurrentPlayer()) {
-                next = "cp_feedbk";
-            } else if (getCurrentPlayer().getName().equals("model.Computer") && CB == getCurrentPlayer()) {
-                next = "cp_guess";
+    private void GUIUpdate() {
+        mainGUIPanel.setStatus(currentState.getStatus());
+
+        if (currentState.getAnswer() != null && !currentState.getStatus().contains(WON)) {
+            if (Objects.equals(MODEL_COMPUTER, getCurrentPlayer().getName()) && codeMaker == getCurrentPlayer()) {
+                next = CP_FEEDBACK;
+            } else if (Objects.equals(MODEL_COMPUTER, getCurrentPlayer().getName()) && codeBreaker == getCurrentPlayer()) {
+                next = CP_GUESS;
             }
-            if (getCurrentPlayer().getName().equals("model.Human") && CM == getCurrentPlayer()) {
-                _GUI.showFeedbackPanel();
-                next = "human";
-            } else if (getCurrentPlayer().getName().equals("model.Human") && CB == getCurrentPlayer()) {
-                _GUI.showGuessPanel();
-                next = "human";
+
+            if (Objects.equals(MODEL_HUMAN, getCurrentPlayer().getName()) && codeMaker == getCurrentPlayer()) {
+                mainGUIPanel.showFeedbackPanel();
+                next = HUMAN;
+            } else if (Objects.equals(MODEL_HUMAN, getCurrentPlayer().getName()) && codeBreaker == getCurrentPlayer()) {
+                mainGUIPanel.showGuessPanel();
+                next = HUMAN;
             }
         }
     }
 
     public void drawBoard() {
         try {
-            _GUI.redraw();
-        } catch (NullPointerException e) {
+            mainGUIPanel.redraw();
+        } catch (NullPointerException ignored) {
         }
     }
 
-    public void whosNext() {
-        if (next.equals("cp_guess") && getCurrentPlayer().getName().equals("model.Computer") && !win) {
+    private void whosNext() {
+        if (Objects.equals(CP_GUESS, next) && Objects.equals(MODEL_COMPUTER, getCurrentPlayer().getName()) && !win) {
             drawBoard();
             computerGuess();
-        } else if (next.equals("cp_feedbk") && getCurrentPlayer().getName().equals("model.Computer") && !win) {
+        } else if (Objects.equals(CP_FEEDBACK, next) && Objects.equals(MODEL_COMPUTER, getCurrentPlayer().getName()) && !win) {
             drawBoard();
             computerFeedback();
         }
     }
 
-    public void computerFeedback() {
-        if (isGUI) {
-            Runnable temp = () -> {
-                Feedback f = ((SystemPlayer) SP).generateFeedback(currentState.getLastGuess(), currentState.getAnswer());
-                addFeedback(f.convertToArray());
-            };
-            SwingUtilities.invokeLater(temp);
-
-        } else {
+    private void computerFeedback() {
+        Runnable temp = () -> {
             Feedback f = ((SystemPlayer) SP).generateFeedback(currentState.getLastGuess(), currentState.getAnswer());
             addFeedback(f.convertToArray());
-        }
+        };
+        SwingUtilities.invokeLater(temp);
     }
 
-    public void computerGuess() {
+    private void computerGuess() {
         Runnable temp = () -> ((Computer) getCurrentPlayer()).submitCode(gamePegSize);
         SwingUtilities.invokeLater(temp);
     }
 
-    public ArrayList<String> generateComputerGuess() {
+    public List<String> generateComputerGuess() {
         return ((Computer) getCurrentPlayer()).fillColor(gamePegSize);
     }
 
-    public void addGuess(ArrayList<String> pegNames) {
+    public void addGuess(List<String> pegNames) {
         Code guess = new Code(pegNames, pegNames.size());
         GameCommand newGuess = new SubmitGuessCommand(receiver, guess, gameRows);
         getCurrentPlayer().makeCommand(newGuess);
@@ -242,16 +231,14 @@ public class GameController {
     }
 
     private void isGUI() {
-        if (isGUI) {
-            _GUI.validate();
-            drawBoard();
-            whosNext();
-            drawBoard();
-            _GUI.validate();
-        }
+        mainGUIPanel.validate();
+        drawBoard();
+        whosNext();
+        drawBoard();
+        mainGUIPanel.validate();
     }
 
-    public void addFeedback(ArrayList<String> pegNames) {
+    public void addFeedback(List<String> pegNames) {
         Feedback feedback = new Feedback(pegNames, gamePegSize);
         GameCommand newFeedback = new SubmitFeedbackCommand(receiver, feedback, gameRows);
         getCurrentPlayer().makeCommand(newFeedback);
@@ -259,23 +246,24 @@ public class GameController {
         isGUI();
     }
 
-    public void addAnswer(ArrayList<String> pegNames) {
+    public void addAnswer(List<String> pegNames) {
         Code code = new Code(pegNames, gamePegSize);
         GameCommand newGuess = new SubmitAnswerCommand(receiver, code);
         getCurrentPlayer().makeCommand(newGuess);
+
         isGUI();
     }
 
-    public ArrayList<String> makeGuessImageNameList() {
+    public List<String> makeGuessImageNameList() {
         return Code.makeGuessImageList(currentState.getGuesses());
     }
 
-    public ArrayList<String> makeFeedbackImageNameList() {
+    public List<String> makeFeedbackImageNameList() {
         return Feedback.makeFeedbackImageNameList(currentState.getFeedback());
     }
 
-    public ArrayList<String> makeSolutionImageNameList() {
-        ArrayList<Code> answerString = new ArrayList<>();
+    public List<String> makeSolutionImageNameList() {
+        List<Code> answerString = new ArrayList<>();
         answerString.add(currentState.getAnswer());
         return Code.makeGuessImageList(answerString);
     }

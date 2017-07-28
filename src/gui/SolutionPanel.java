@@ -7,24 +7,24 @@ import java.awt.*;
 import java.awt.event.ActionEvent;
 import java.awt.event.ActionListener;
 import java.util.ArrayList;
+import java.util.List;
 
 public class SolutionPanel extends JFrame {
 
     private static final long serialVersionUID = 1L;
-    private String[] _colorList;
+    private final String[] colorList;
     @SuppressWarnings("rawtypes")
     private JComboBox[] pegs;
 
-    private MainGUIPanel _mainPanel;
-    private JPanel _viewSolutionPanel;
-    private JPanel _inputSolutionPanel;
-    private JPanel _submitSolutionPanel;
+    private final MainGUIPanel mainPanel;
+    private JPanel viewSolutionPanel;
+    private JPanel inputSolutionPanel;
+    private JPanel submitSolutionPanel;
 
     public SolutionPanel(MainGUIPanel mainPanel) {
-
         // Initialize the private instance variables
-        this._mainPanel = mainPanel;
-        this._colorList = new String[]{"RED", "BLUE", "GREEN", "YELLOW", "WHITE", "BLACK", "PURPLE"};
+        this.mainPanel = mainPanel;
+        this.colorList = new String[]{"RED", "BLUE", "GREEN", "YELLOW", "WHITE", "BLACK", "PURPLE"};
 
         // Add the panels to this board
         makeViewSolutionPanel();
@@ -50,11 +50,9 @@ public class SolutionPanel extends JFrame {
 
         // Move the window
         setLocation(x, y);
-
     }
 
     public void newGame() {
-        //System.out.println("le derp");
         setVisible(true);
         setUserInput(true);
     }
@@ -64,7 +62,6 @@ public class SolutionPanel extends JFrame {
     }
 
     private void makeViewSolutionPanel() {
-
         JPanel panel = new JPanel();
         panel.setBorder(new EmptyBorder(10, 25, 25, 25));
         panel.setLayout(new GridLayout(1, 4, 25, 25));
@@ -77,12 +74,11 @@ public class SolutionPanel extends JFrame {
         }
 
         this.add(panel);
-        this._viewSolutionPanel = panel;
+        this.viewSolutionPanel = panel;
     }
 
     @SuppressWarnings({"rawtypes", "unchecked"})
-    public void makeInputSelectionPanel() {
-
+    private void makeInputSelectionPanel() {
         ImageIcon red = new ImageIcon(getClass().getResource("RED.png"));
         ImageIcon blue = new ImageIcon(getClass().getResource("BLUE.png"));
         ImageIcon green = new ImageIcon(getClass().getResource("GREEN.png"));
@@ -111,8 +107,7 @@ public class SolutionPanel extends JFrame {
         panel.add(pegFour);
 
         this.add(panel);
-        this._inputSolutionPanel = panel;
-
+        this.inputSolutionPanel = panel;
     }
 
     private void makeSubmitSolutionPanel() {
@@ -122,25 +117,26 @@ public class SolutionPanel extends JFrame {
         submit.addActionListener(new EncodeListener());
         panel.add(submit);
         this.add(panel);
-        this._submitSolutionPanel = panel;
+        this.submitSolutionPanel = panel;
     }
 
     @SuppressWarnings("rawtypes")
-    public ArrayList<String> getSelectedPegs() {
-        ArrayList<String> selected = new ArrayList<String>();
-        for (JComboBox color : pegs)
-            selected.add(this._colorList[color.getSelectedIndex()]);
+    private List<String> getSelectedPegs() {
+        List<String> selected = new ArrayList<>();
+        for (JComboBox color : pegs) {
+            selected.add(this.colorList[color.getSelectedIndex()]);
+        }
         return selected;
     }
 
-    public void redrawSolution(ArrayList<String> imageFiles) {
+    public void redrawSolution(List<String> imageFiles) {
         for (int i = 0; i < imageFiles.size(); i++) {
-            JButton button = (JButton) _viewSolutionPanel.getComponent(i);
+            JButton button = (JButton) viewSolutionPanel.getComponent(i);
             try {
                 Image img = ImageIO.read(getClass().getResource(imageFiles.get(i)));
                 button.setIcon(new ImageIcon(img));
                 button.setEnabled(true);
-            } catch (Exception e) {
+            } catch (Exception ignored) {
             }
         }
     }
@@ -148,12 +144,12 @@ public class SolutionPanel extends JFrame {
     @SuppressWarnings("rawtypes")
     private void setUserInput(Boolean exp) {
         //enable the dropdowns
-        for (Component colorDropdown : _inputSolutionPanel.getComponents()) {
+        for (Component colorDropdown : inputSolutionPanel.getComponents()) {
             ((JComboBox) colorDropdown).setSelectedIndex(0);
             colorDropdown.setEnabled(exp);
         }
         //enable the submit button
-        for (Component submitButton : _submitSolutionPanel.getComponents()) {
+        for (Component submitButton : submitSolutionPanel.getComponents()) {
             submitButton.setEnabled(exp);
         }
     }
@@ -161,7 +157,7 @@ public class SolutionPanel extends JFrame {
     class EncodeListener implements ActionListener {
 
         public void actionPerformed(ActionEvent e) {
-            _mainPanel.setSolutionCode(getSelectedPegs());
+            mainPanel.setSolutionCode(getSelectedPegs());
             setUserInput(false);
             setVisible(false);
         }

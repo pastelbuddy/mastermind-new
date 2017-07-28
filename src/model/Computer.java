@@ -1,33 +1,36 @@
 package model;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Objects;
 import java.util.Random;
 
 public class Computer implements Player {
 
-    private String difficulty;
-    private GameController _controller;
-    private Difficulty _difficultyMode;
-    private String _name;
-    @SuppressWarnings("unused")
-    private Integer _waitTime;
-    private boolean good = true;
-    //Constants for Computer Logic (Making a guess)
     private final int MAX_COLORS = CodePegs.values().length;
+    private final String DIFFICULTY_LEVEL = "2";
+
+    private final GameController controller;
+    private Difficulty difficultyMode;
+
+    private String difficulty;
+    private final String name;
+    @SuppressWarnings("unused")
+    private Integer waitTime;
 
     public Computer(GameController controller) {
-        this._controller = controller;
-        this._name = this.getClass().getName();
-        this._waitTime = 15;
-        this._difficultyMode = new Novice();
+        this.controller = controller;
+        this.name = this.getClass().getName();
+        this.waitTime = 15;
+        this.difficultyMode = new Novice();
     }
 
     public String getName() {
-        return this._name;
+        return this.name;
     }
 
     public void setWaitTime(int seconds) {
-        this._waitTime = seconds;
+        this.waitTime = seconds;
     }
 
     public void setDifficulty(String level) {
@@ -38,34 +41,35 @@ public class Computer implements Player {
         newCommand.execute();
     }
 
-    public ArrayList<String> fillColor(int pegSize) {
+    public List<String> fillColor(int pegSize) {
         //Assign the CodePegs Values to this data structure
-        difficulty = _controller.getGameMode();
-        good = false;
-        if (difficulty.equals("2")) {
-            _difficultyMode = new Expert();
+        difficulty = controller.getGameMode();
+        boolean good = false;
+
+        if (Objects.equals(DIFFICULTY_LEVEL, difficulty)) {
+            difficultyMode = new Expert();
         } else {
-            _difficultyMode = new Novice();
+            difficultyMode = new Novice();
         }
-        ArrayList<String> newCode = new ArrayList<>();
+
+        List<String> newCode = new ArrayList<>();
         while (!good) {
             int choice;
             newCode.clear();
             CodePegs[] values = CodePegs.values();
+
             for (int i = 0; i < pegSize; i++) {
                 choice = new Random().nextInt(MAX_COLORS);
                 newCode.add(values[choice].toString());
             }
             Code c = new Code(newCode, 4);
-            good = _difficultyMode.isLegalCode(c);
+            good = difficultyMode.isLegalCode(c);
         }
         return newCode;
     }
 
     public void submitCode(int pegSize) {
-        //try {Thread.sleep(_waitTime * 1000);}
-        //catch (InterruptedException e) {}
-        _controller.addGuess(fillColor(pegSize));
+        controller.addGuess(fillColor(pegSize));
     }
 
 }

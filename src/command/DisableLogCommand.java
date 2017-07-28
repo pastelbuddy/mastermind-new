@@ -5,7 +5,7 @@ import model.GameCommand;
 
 public class DisableLogCommand implements GameCommand {
 
-    private GCReceiver receiver;
+    private final GCReceiver receiver;
 
     public DisableLogCommand(GCReceiver receiver) {
         this.receiver = receiver;
