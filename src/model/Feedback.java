@@ -14,15 +14,12 @@ public class Feedback {
         if (feedback.length != pegSize)
             throw new IllegalArgumentException();
 
-        //validate that elements in the feedback are assigned
         for (int i = 0; i < pegSize; i++)
             if (feedback[i] == null)
                 throw new IllegalArgumentException();
 
         this.feedback = feedback;
         this.pegSize = pegSize;
-
-
     }
 
     public Feedback(List<String> pegNames, int pegSize) {

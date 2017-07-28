@@ -7,7 +7,7 @@ public class Novice implements Difficulty {
 
     @Override
     public boolean isLegalCode(Code code) {
-        CodePegs pegs[] = code.getCode();
+        CodePegs[] pegs = code.getCode();
         Set<CodePegs> seen = new HashSet<>();
 
         for (CodePegs peg : pegs) {

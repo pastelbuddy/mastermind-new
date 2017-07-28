@@ -39,7 +39,7 @@ public class GameController {
     @SuppressWarnings("unused")
     private int count;
 
-    public GameController(String userInterface) {
+    public GameController() {
         codeMaker = new Human(this, receiver);
         codeBreaker = new Human(this, receiver);
         SP = new SystemPlayer();
@@ -47,9 +47,9 @@ public class GameController {
         newGame = false;
         count = 0;
         next = "nope";
-        if (Objects.equals("GUI", userInterface)) {
-            mainGUIPanel = new MainGUIPanel(this, DEFAULT_GAME_ROWS, DEFAULT_GAME_PEG_SIZE);
-        }
+
+        mainGUIPanel = new MainGUIPanel(this, DEFAULT_GAME_ROWS, DEFAULT_GAME_PEG_SIZE);
+
         setGamePegSize(DEFAULT_GAME_PEG_SIZE);
         setGameRows(DEFAULT_GAME_ROWS);
         setGameMode(DEFAULT_GAME_MODE);
@@ -114,7 +114,6 @@ public class GameController {
             }
         }
     }
-
 
     private void setGameMode(String gameMode) {
         GameController.gameMode = gameMode;
